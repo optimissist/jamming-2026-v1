@@ -1,4 +1,5 @@
 import styles from './SearchResults.module.css'
+import Track from '../Track/Track';
 
 function SearchResults() {
     return (
@@ -8,3 +9,5 @@ function SearchResults() {
 }
 
 export default SearchResults;
+
+// searchResults.map(track =>  <Track key={track.id} track={track}/>)
