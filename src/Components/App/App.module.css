@@ -8,23 +8,19 @@ html {
   font-size: 18px;
 }
 
-h1 {
+.h1 {
   padding: .77rem 0;
-  background-color: #010c3f;
+  background-color: var(--background);
   text-align: center;
   font-family: 'Poppins', sans-serif;
   font-size: 1.88rem;
-  color: #fff;
+  color: var(--bg);
 }
 
-h1 .highlight {
-  color: #6c41ec;
+.highlight {
+  color: var(--purple);
 }
 
-h2 {
-  font-family: 'Poppins', sans-serif;
-  font-size: 1.55rem;
-}
 
 .App {
   height: 100%;
