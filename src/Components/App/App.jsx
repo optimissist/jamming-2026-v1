@@ -21,13 +21,16 @@ function removeTrack(oldTrack) {
   const existingTrack = playlistTracks.filter((playlistTrack) => playlistTrack.id !== oldTrack.id);
    setPlaylistTracks(existingTrack); //returns the array with the old track filtered out
 }
+function updatePlaylistName(event) {
+  setPlaylistName(event.target.value);
+}
 
   return (
     <div>
       <h1>Ja<span className={styles.highlight}>mmm</span>ing</h1>
       <div className={styles.App}>
         <SearchResults searchResults={searchResults} onAdd={addTrack}/>
-        <Playlist playlistName={playlistName} playlistTracks={playlistTracks} onRemove={removeTrack}/>
+        <Playlist playlistName={playlistName} playlistTracks={playlistTracks} onRemove={removeTrack} updatePlaylistName={updatePlaylistName}/>
       </div>
     </div>
   )

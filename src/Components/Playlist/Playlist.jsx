@@ -2,9 +2,10 @@ import styles from './Playlist.module.css';
 import TrackList from '../TrackList/TrackList';
 
 function Playlist(props) {
+
     return (
         <div className={styles.Playlist}>
-            <h2>{props.playlistName}</h2>
+            <input type="text" value={props.playlistName} onChange={props.updatePlaylistName}/>
             <TrackList tracks={props.playlistTracks} onRemove={props.onRemove} />
         </div>
     )
