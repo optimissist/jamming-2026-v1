@@ -4,7 +4,7 @@ function TrackList(props) {
     
     return (
         <div className={styles.TrackList}>
-            {props.tracks.map(track =>  <Track key={track.id} track={track}/>)}
+            {props.tracks.map(track =>  <Track key={track.id} track={track} isPlaylistTrack={true} onRemove={props.onRemove}/>)}
         </div>
     )
 }

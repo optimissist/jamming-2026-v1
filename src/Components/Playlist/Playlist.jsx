@@ -5,7 +5,7 @@ function Playlist(props) {
     return (
         <div className={styles.Playlist}>
             <h2>{props.playlistName}</h2>
-            <TrackList tracks={props.playlistTracks} />
+            <TrackList tracks={props.playlistTracks} onRemove={props.onRemove} />
         </div>
     )
 }
