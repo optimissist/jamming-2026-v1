@@ -24,7 +24,7 @@ html {
 
 .App {
   height: 100%;
-  padding: 0 17% 10% 17%;
+  padding: 4% 17% 10% 17%;
   background-image: url('./background_photo_desktop.jpeg');
   background-size: cover;
   background-position: center;
@@ -32,6 +32,9 @@ html {
   font-family: 'Work Sans', sans-serif;
   font-weight: 500;
   color: #fff;
+  display: flex;
+  justify-content: space-around;
+  gap: 2rem;
 }
 
 .App-playlist {
