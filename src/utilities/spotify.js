@@ -1,5 +1,5 @@
 const clientId = "3b0268425fc64850b661e90a6edc3c55";
-const redirectUri = "http://127.0.0.1:5173";
+const redirectUri = "https://jammingms.netlify.app/";
 let accessToken;
 let tokenExpiration;
 
