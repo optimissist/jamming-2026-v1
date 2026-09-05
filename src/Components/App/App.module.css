@@ -14,21 +14,18 @@ h1 {
   text-align: center;
   font-family: 'Poppins', sans-serif;
   font-size: 1.88rem;
+  margin: 0;
   color: #fff;
 }
 
-h1 .highlight {
-  color: #6c41ec;
-}
 
-h2 {
-  font-family: 'Poppins', sans-serif;
-  font-size: 1.55rem;
+.highlight {
+  color: var(--purple);
 }
 
 .App {
   height: 100%;
-  padding: 0 17% 10% 17%;
+  padding: 2% 17% 10% 17%;
   background-image: url('./background_photo_desktop.jpeg');
   background-size: cover;
   background-position: center;
@@ -36,6 +33,15 @@ h2 {
   font-family: 'Work Sans', sans-serif;
   font-weight: 500;
   color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+}
+
+.appContent {
+  display: flex;
+  gap: 2rem;
 }
 
 .App-playlist {
