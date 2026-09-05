@@ -77,6 +77,41 @@ async function getAccessToken() {
 }
 }
 
+export async function search(term) {
+    const existingAccessToken  = await getAccessToken();
+    const params = {
+        q: term,
+        type: "track"
+    }
+
+// const queryString = new URLSearchParams(params).toString();
+// const searchURL = `https://api.spotify.com/v1/search?${queryString}`;
+
+const searchURL = 'https://api.spotify.com/v1/search?' + new URLSearchParams(params).toString();
+
+const payload = {
+            // method: 'GET', unnecessary because fetch IS get
+            headers: {
+            Authorization: `Bearer ${existingAccessToken}`
+            },
+        }
+
+        const body = await fetch(searchURL, payload);
+        const response = await body.json();
+
+        return response.tracks.items.map(track => ({
+                        id: track.id,
+                        name: track.name,
+                        artist: track.artists[0].name,
+                        album: track.album.name,
+                        uri: track.uri
+                    }));
+}
+
+
+
+// NOTES:
+
 /*Generate the secret (codeVerifier)
 Scramble it into the codeChallenge (hash it)
 Save codeVerifier somewhere you can find it again later (you'll need it after the user comes back)
