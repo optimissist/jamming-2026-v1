@@ -1,5 +1,5 @@
 const clientId = "3b0268425fc64850b661e90a6edc3c55";
-const redirectUri = "https://jammingms.netlify.app/";
+const redirectUri = "https://jammingms.netlify.app";
 let accessToken;
 let tokenExpiration;
 
@@ -17,6 +17,13 @@ const sha256 = async (plain) => {
   const data = encoder.encode(plain);
   return window.crypto.subtle.digest('SHA-256', data);
 };
+
+const base64encode = (input) => {
+  return btoa(String.fromCharCode(...new Uint8Array(input)))
+    .replace(/=/g, '')
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_');
+}
 
 async function getAccessToken() {
         if (accessToken && tokenExpiration > Date.now()) {
@@ -56,7 +63,8 @@ async function getAccessToken() {
         return accessToken
     } else {
     const codeVerifier = generateRandomString(64);
-    const codeChallenge = await sha256(codeVerifier);
+    const hashed = await sha256(codeVerifier)
+    const codeChallenge = base64encode(hashed);
 
     const scope = "playlist-modify-private playlist-modify-public";
     const authUrl = new URL("https://accounts.spotify.com/authorize");
