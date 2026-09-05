@@ -34,7 +34,7 @@ setPlaylistTracks([]);
 
   return (
     <div>
-      <h1>Ja<span className={styles.highlight}>mmm</span>ing</h1>
+      <h1 className={styles.h1}>Ja<span className={styles.highlight}>mmm</span>ing</h1>
       <div className={styles.App}>
         <SearchResults searchResults={searchResults} onAdd={addTrack}/>
         <Playlist playlistName={playlistName} playlistTracks={playlistTracks} onRemove={removeTrack} updatePlaylistName={updatePlaylistName} onSave={savePlaylist}/>
