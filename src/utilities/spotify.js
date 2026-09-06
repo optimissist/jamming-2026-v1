@@ -25,15 +25,20 @@ const base64encode = (input) => {
     .replace(/\//g, '_');
 }
 
-async function getAccessToken() {
-        if (accessToken && tokenExpiration > Date.now()) {
+export async function isTokenValid() {
+          if (accessToken && tokenExpiration > Date.now()) {
         return accessToken;
-    }
+    } 
 
     const urlParams = new URLSearchParams(window.location.search);
     let code = urlParams.get('code');
 
     if (code) {
+        return await exchangeCodeForToken(code);
+    }
+}
+
+async function exchangeCodeForToken(code) {
        const codeVerifier =  localStorage.getItem('code_verifier');
        const url = "https://accounts.spotify.com/api/token";
 
@@ -60,8 +65,10 @@ async function getAccessToken() {
 
         localStorage.removeItem('code_verifier');
 
-        return accessToken
-    } else {
+        return accessToken;
+}
+
+export async function redirectToSpotifyLogin() {
     const codeVerifier = generateRandomString(64);
     const hashed = await sha256(codeVerifier)
     const codeChallenge = base64encode(hashed);
@@ -82,6 +89,20 @@ async function getAccessToken() {
 
     authUrl.search = new URLSearchParams(params).toString();
     window.location.href = authUrl.toString();
+}
+
+async function getAccessToken() {
+    if (await isTokenValid()) {
+        return accessToken;
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    let code = urlParams.get('code');
+
+    if (code) {
+       return await exchangeCodeForToken(code);   //await needs to sit directly in front of the thing being waited on (the function call)
+    } else {
+    redirectToSpotifyLogin();
 }
 }
 
@@ -117,6 +138,67 @@ const payload = {
 }
 
 
+export async function getUserID() {
+    const existingAccessToken  = await getAccessToken();
+
+const userURL = 'https://api.spotify.com/v1/me';
+
+const payload = {
+            // method: 'GET', unnecessary because fetch IS get
+            headers: {
+            Authorization: `Bearer ${existingAccessToken}`
+            },
+        }
+
+        const body = await fetch(userURL, payload);
+        const response = await body.json();
+
+        return response.id;
+
+}
+
+export async function createPlaylist(userId, name, description, isPublic) {
+    const existingAccessToken  = await getAccessToken();
+
+    const playlistURL = `https://api.spotify.com/v1/users/${userId}/playlists`;
+      
+    const payload = {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${existingAccessToken}`
+            },
+            body: JSON.stringify({
+                name,
+                description,
+                public: isPublic
+            }),
+        }
+
+        const body = await fetch(playlistURL, payload);
+        const response = await body.json();
+
+        return response.id;
+}
+
+export async function addTracksToPlaylist(playlistId, playlistUris) {
+    const existingAccessToken  = await getAccessToken();
+
+    const tracksURL = `https://api.spotify.com/v1/playlists/${playlistId}/tracks`;
+
+     const payload = {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${existingAccessToken}`
+            },
+            body: JSON.stringify({
+                uris: playlistUris
+            }),
+        }
+
+        const body = await fetch(tracksURL, payload);
+}
 
 // NOTES:
 
