@@ -4,7 +4,7 @@ import '../../index.css'
 import SearchResults from '../SearchResults/SearchResults';
 import SearchBar from '../SearchBar/SearchBar';
 import Playlist from '../Playlist/Playlist';
-import {isTokenValid, search, getUserID, createPlaylist, addTracksToPlaylist, redirectToSpotifyLogin} from "../../utilities/spotify";
+import {isTokenValid, search, createPlaylist, addTracksToPlaylist, redirectToSpotifyLogin} from "../../utilities/spotify";
 
 
 function App() {
@@ -31,9 +31,8 @@ function updatePlaylistName(event) {
 
 async function savePlaylist() {
 const trackUri = playlistTracks.map(track => track.uri);
-const userId = await getUserID();
 
-const newPlaylist = await createPlaylist( userId, playlistName, "Created with Jamming", true);
+const newPlaylist = await createPlaylist( playlistName, "Created with Jamming", true);
 
 await addTracksToPlaylist(newPlaylist, trackUri);
 
@@ -66,6 +65,9 @@ useEffect(() => {
         </div>
         </> : <button className={styles.SearchButton} onClick={redirectToSpotifyLogin}>Log Into Spotify</button>}
       </div>
+      <footer>
+        Note, this is a development app. Playlists will not save unless you are a registered user
+        </footer>
     </div>
   )
 }

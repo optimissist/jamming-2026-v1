@@ -157,10 +157,10 @@ const payload = {
 
 }
 
-export async function createPlaylist(userId, name, description, isPublic) {
+export async function createPlaylist(name, description, isPublic) {
     const existingAccessToken  = await getAccessToken();
 
-    const playlistURL = `https://api.spotify.com/v1/users/${userId}/playlists`;
+    const playlistURL = `https://api.spotify.com/v1/me/playlists`;
       
     const payload = {
             method: 'POST',
@@ -184,7 +184,7 @@ export async function createPlaylist(userId, name, description, isPublic) {
 export async function addTracksToPlaylist(playlistId, playlistUris) {
     const existingAccessToken  = await getAccessToken();
 
-    const tracksURL = `https://api.spotify.com/v1/playlists/${playlistId}/tracks`;
+    const tracksURL = `https://api.spotify.com/v1/playlists/${playlistId}/items`;
 
      const payload = {
             method: 'POST',
