@@ -4,7 +4,7 @@ import '../../index.css'
 import SearchResults from '../SearchResults/SearchResults';
 import SearchBar from '../SearchBar/SearchBar';
 import Playlist from '../Playlist/Playlist';
-import {search} from "../../utilities/spotify";
+import {search, getUserID, createPlaylist, addTracksToPlaylist} from "../../utilities/spotify";
 
 
 function App() {
@@ -28,8 +28,14 @@ function updatePlaylistName(event) {
   setPlaylistName(event.target.value);
 }
 
-function savePlaylist() {
+async function savePlaylist() {
 const trackUri = playlistTracks.map(track => track.uri);
+const userId = await getUserID();
+
+const newPlaylist = await createPlaylist( userId, playlistName, "Created with Jamming", true);
+
+await addTracksToPlaylist(newPlaylist, trackUri);
+
 setPlaylistName("Playlist Name");
 setPlaylistTracks([]);
 }
@@ -55,3 +61,8 @@ async function newSearch(term) {
 }
 
 export default App
+
+
+/*const [searchResults, setSearchResults] = useState([{ name: "name1", artist: "artist1", album: "album1", id: 1, uri: "spotify:track:mock1"}, { name: "name2", artist: "artist2", album: "album2", id: 2, uri: "spotify:track:mock2"  }, { name: "name3", artist: "artist3", album: "album3", id: 3, uri: "spotify:track:mock3" }]);
+const [playlistName, setPlaylistName] = useState("Playlist Name");
+const [playlistTracks, setPlaylistTracks] = useState([{ name: "name1", artist: "artist1", album: "album1", id: 1, uri: "spotify:track:mock1"}, { name: "name2", artist: "artist2", album: "album2", id: 2, uri: "spotify:track:mock2"  }, { name: "name3", artist: "artist3", album: "album3", id: 3, uri: "spotify:track:mock3" }]); */

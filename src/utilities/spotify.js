@@ -117,6 +117,67 @@ const payload = {
 }
 
 
+export async function getUserID() {
+    const existingAccessToken  = await getAccessToken();
+
+const userURL = 'https://api.spotify.com/v1/me';
+
+const payload = {
+            // method: 'GET', unnecessary because fetch IS get
+            headers: {
+            Authorization: `Bearer ${existingAccessToken}`
+            },
+        }
+
+        const body = await fetch(userURL, payload);
+        const response = await body.json();
+
+        return response.id;
+
+}
+
+export async function createPlaylist(userId, name, description, isPublic) {
+    const existingAccessToken  = await getAccessToken();
+
+    const playlistURL = `https://api.spotify.com/v1/users/${userId}/playlists`;
+      
+    const payload = {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${existingAccessToken}`
+            },
+            body: JSON.stringify({
+                name,
+                description,
+                public: isPublic
+            }),
+        }
+
+        const body = await fetch(playlistURL, payload);
+        const response = await body.json();
+
+        return response.id;
+}
+
+export async function addTracksToPlaylist(playlistId, playlistUris) {
+    const existingAccessToken  = await getAccessToken();
+
+    const tracksURL = `https://api.spotify.com/v1/playlists/${playlistId}/tracks`;
+
+     const payload = {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${existingAccessToken}`
+            },
+            body: JSON.stringify({
+                uris: playlistUris
+            }),
+        }
+
+        const body = await fetch(tracksURL, payload);
+}
 
 // NOTES:
 
